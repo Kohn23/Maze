@@ -4,7 +4,7 @@
 
 
 // 迷宫格子状态
-enum Cell { PATH, WALL, PLAYER };
+enum Cell { WALL, PATH, PLAYER };
 
 // 地图
 using Map = std::vector<std::vector<int>>;
@@ -16,4 +16,6 @@ struct Point
 {
     int x, y;
     Point(int _x, int _y) :x(_x), y(_y) {}
+    // 重载函数
+    void operator+=(Point movement) { x += movement.x; y += movement.y; }
 };

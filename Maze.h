@@ -1,5 +1,6 @@
 #pragma once
 #include <graphics.h>
+#include <queue>
 #include "Generator.h"
 
 class Maze final {
@@ -9,7 +10,7 @@ public:
 public:
     void SetGenerator(MazeGenerator* newGenerator);
     void SetMaze(Size _size, Point start, Point end);
-    void GetPlayer(Point player);
+    void GetPlayer(std::queue<Point>& player);
     bool Query(Point position);
     void Disp();
 private:

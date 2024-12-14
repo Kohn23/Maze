@@ -36,13 +36,22 @@ bool Maze::Query(Point position) {
 		return Cell::WALL;
 }
 
-void Maze::GetPlayer(Point player) {
+void Maze::GetPlayer(std::queue<Point>& player) {
 	try
 	{
-		if(Query(player))
+		Point _last_position = player.front();
+		player.pop();
+		if(!Query(_last_position))
 			throw std::range_error("_Inappropriate_Position");
 
-		(*maze)[player.x][player.y] = Cell::PLAYER;
+		if (player.empty()) {
+			player.push(_last_position);
+			(*maze)[player.front().x][player.front().y] = Cell::PLAYER;
+		}
+		else{
+			(*maze)[_last_position.x][_last_position.y] = Cell::PATH;
+			(*maze)[player.front().x][player.front().y] = Cell::PLAYER;
+		}
 	}
 	catch (const std::exception& e)
 	{
