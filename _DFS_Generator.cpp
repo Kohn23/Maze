@@ -11,6 +11,7 @@ Map* _DFS_Generator::generate(Size _size) {
 		for (int j = 0; j < _size.second; ++j)
 			row.push_back(Cell::WALL);
 
+    srand(static_cast<unsigned int>(time(NULL)));
 	// DFSÕ»
     std::stack<Point> sp;
 	// ·½Ïò

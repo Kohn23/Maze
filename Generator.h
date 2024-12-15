@@ -1,6 +1,8 @@
 #pragma once
 #include <stack>
+#include <ctime>
 #include <algorithm>
+
 #include "Basic.h"
 
 // Interface_of_Strategy

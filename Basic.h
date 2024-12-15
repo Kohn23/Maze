@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <queue>
 
 
 // 迷宫格子状态
@@ -19,3 +20,6 @@ struct Point
     // 重载函数
     void operator+=(Point movement) { x += movement.x; y += movement.y; }
 };
+
+// 玩家
+using Player = std::queue<Point>;

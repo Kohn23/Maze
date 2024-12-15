@@ -1,6 +1,7 @@
 #pragma once
 #include <graphics.h>
-#include <queue>
+
+#include "Basic.h"
 #include "Generator.h"
 
 class Maze final {
@@ -10,7 +11,7 @@ public:
 public:
     void SetGenerator(MazeGenerator* newGenerator);
     void SetMaze(Size _size, Point start, Point end);
-    void GetPlayer(std::queue<Point>& player);
+    void GetPlayer(Player& player);
     bool Query(Point position);
     void Disp();
 private:
@@ -19,13 +20,15 @@ private:
     std::unique_ptr<MazeGenerator> generator;
 };
 
+
+
 class Render final {
 private:
     static bool _need_init;
 
 public:
     void operator()(Maze& obj) noexcept {
-        const int width = 15;
+        const int width = 20;
         if (_need_init)
         {
             initgraph(obj.size.second * width, obj.size.first * width);
