@@ -1,8 +1,7 @@
 #include "Generator.h"
 
-// 利用迭代进行DFS
+// 利用迭代进行DFS迷宫生成
 Map* _DFS_Generator::generate(Size _size) {
-
 	// 初始地图
 	Map* maze = new Map;
 	for (int i = 0; i < _size.first; ++i)

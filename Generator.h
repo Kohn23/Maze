@@ -20,3 +20,8 @@ class _DFS_Generator : public MazeGenerator {
 public:
 	virtual Map* generate(Size _size) override;
 };
+
+class _Prim_Generator : public MazeGenerator {
+public:
+	virtual Map* generate(Size _size) override;
+};

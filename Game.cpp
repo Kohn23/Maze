@@ -40,12 +40,13 @@ char Game::Menu() {
 
 // 简单模式，小迷宫，只有一条主路，使用DFS算法生成迷宫
 void Game::EasyMode() {
+    int size = 21;
     Point start(0, 1);
-    Point end(20, 19);
+    Point end(size - 1, size - 2);
     player.push(start);
 
     maze.SetGenerator(new _DFS_Generator);
-    maze.SetMaze({ 21,21 }, start, end);
+    maze.SetMaze({ size,size }, start, end);
     while (true)
     {
         maze.GetPlayer(player);
@@ -53,6 +54,8 @@ void Game::EasyMode() {
         // 检查是否到达终点
         if (player.front().x == end.x && player.front().y == end.y)
         {
+            render.EndGame();
+            Sleep(3000);
             break;
         }
 

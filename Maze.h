@@ -24,7 +24,7 @@ private:
 
 class Render final {
 private:
-    static bool _need_init;
+    bool _need_init{ true };
 
 public:
     void operator()(Maze& obj) noexcept {
@@ -42,9 +42,19 @@ public:
         drawMaze(obj, width);
     }
 
+    void EndGame() noexcept{
+        _need_init = true;
+        settextcolor(RED); 
+        settextstyle(48, 0, _T("Consolas"));
+        int x = (getmaxx() - textwidth(_T("You Win!"))) / 2; // 计算文本宽度并居中
+        int y = (getmaxy() - textheight(_T("You Win!"))) / 2 + textheight(_T("You Win!")); // 计算文本高度并居中
+        outtextxy(x, y, _T("You Win!")); // 在指定位置绘制 "You Win!" 文字
+    }
+
 private:
     static void drawMaze(const Maze& obj, int width) {
         const Map* map = obj.maze.get();
+        BeginBatchDraw();
         for (int j = 0; j < obj.size.second; ++j) {
             for (int i = 0; i < obj.size.first; ++i) {
                 if ((*map)[i][j] == Cell::WALL) {
@@ -57,7 +67,7 @@ private:
                 }
             }
         }
+        EndBatchDraw();
     }
-
 };
 
