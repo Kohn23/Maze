@@ -9,13 +9,13 @@ Map* _DFS_Generator::generate(Size _size) {
 	for (auto& row : *maze)
 		for (int j = 0; j < _size.second; ++j)
 			row.push_back(Cell::WALL);
-
+    // 随机种子
     srand(static_cast<unsigned int>(time(NULL)));
-	// DFS栈
+    // 递归栈
     std::stack<Point> sp;
 	// 方向
 	static std::vector<std::vector<int>> dir{ {1,0},{-1,0},{0,1},{0,-1} };
-	// （坐标为奇数）挖洞的初始位置
+	// （坐标为奇数）初始位置
 	Point digger((rand() % (_size.first - 2) + 1) | 1, (rand() % (_size.second - 2) + 1) | 1);
 	sp.push(digger);
     // DFS过程

@@ -18,6 +18,7 @@ public:
 private:
 	char Menu();
 	void EasyMode();
+	void HardMode();
 
 private:
 	Maze maze;

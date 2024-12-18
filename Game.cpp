@@ -9,7 +9,7 @@ void Game::initGame() {
             EasyMode();
             break;
         case 'h': // 困难模式
-            std::cout << std::endl << "敬请期待！" << std::endl;
+            HardMode();
             break;
         case 'q': // 退出游戏
             exit(0); // 退出程序
@@ -38,15 +38,71 @@ char Game::Menu() {
     return status;
 }
 
-// 简单模式，小迷宫，只有一条主路，使用DFS算法生成迷宫
+// 简单模式，小迷宫，只有一条主路，使用Prim算法生成迷宫
 void Game::EasyMode() {
-    int size = 21;
+    int width = 21;
+    int height = 21;
     Point start(0, 1);
-    Point end(size - 1, size - 2);
+    Point end(width - 1, height - 2);
+    while (!player.empty()) // 清空状态
+        player.pop();
+    player.push(start);
+
+    maze.SetGenerator(new _Prim_Generator);
+    maze.SetMaze({ width,height }, start, end);
+    while (true)
+    {
+        maze.GetPlayer(player);
+        render(maze);
+        // 检查是否到达终点
+        if (player.front().x == end.x && player.front().y == end.y)
+        {
+            render.EndGame();
+            Sleep(3000);
+            break;
+        }
+
+        // 进行移动
+        Point move = player.front();
+        char ch = _getch();  // 获取一个字符输入
+        if (ch == 'w' || ch == 'W') // 上
+        {
+            move += Point(0, -1);
+            if (maze.Query(move)) player.push(move);
+        }
+        else if (ch == 's' || ch == 'S') // 下
+        {
+            move += Point(0, 1);
+            if (maze.Query(move)) player.push(move);
+        }
+        else if (ch == 'a' || ch == 'A') // 左
+        {
+            move += Point(-1, 0);
+            if (maze.Query(move)) player.push(move);
+        }
+        else if (ch == 'd' || ch == 'D') // 右
+        {
+            move += Point(1, 0);
+            if (maze.Query(move)) player.push(move);
+        }
+    }
+
+    closegraph();
+    return;
+}
+
+// 困难模式，大迷宫，只有一条主路，使用DFS算法生成迷宫
+void Game::HardMode() {
+    int width = 49;
+    int height = 49;
+    Point start(0, 1);
+    Point end(width - 1, height - 2);
+    while (!player.empty()) // 清空状态
+        player.pop();
     player.push(start);
 
     maze.SetGenerator(new _DFS_Generator);
-    maze.SetMaze({ size,size }, start, end);
+    maze.SetMaze({ width,height }, start, end);
     while (true)
     {
         maze.GetPlayer(player);

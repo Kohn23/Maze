@@ -5,7 +5,7 @@
 
 
 // ÃÔ¹¬¸ñ×Ó×´Ì¬
-enum Cell { WALL, PATH, PLAYER };
+enum Cell { WALL, PATH, PLAYER, FLAG };
 
 // µØÍ¼
 using Map = std::vector<std::vector<int>>;
