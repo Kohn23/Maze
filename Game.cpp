@@ -97,3 +97,62 @@ void Game::HardMode() {
     closegraph();
     return;
 }
+
+//#include <thread>
+//#include <atomic>
+//#include <mutex>
+//
+//// 全局变量
+//std::atomic<bool> gameRunning(true); // 游戏运行状态标志
+//std::mutex gameMutex; // 用于同步访问游戏状态的互斥锁
+//
+//void Game::HardMode() {
+//    int width = 49;
+//    int height = 49;
+//    Point start(0, 1);
+//    Point end(width - 1, height - 2);
+//
+//    Player player(start);
+//    ComputerPlayer computerPlayer(end); // 假设你有一个ComputerPlayer类
+//    maze.setGenerator(new _DFS_Generator);
+//    maze.setMaze({ width, height }, start, end);
+//
+//    // 玩家线程函数
+//    std::thread playerThread([&]() {
+//        while (gameRunning) {
+//            std::unique_lock<std::mutex> lock(gameMutex);
+//            maze.updateObject(player);
+//            render(maze, player.getPosition());
+//            if (player.getPosition() == end) {
+//                render.EndGame();
+//                gameRunning = false;
+//            }
+//            lock.unlock();
+//            player.move();
+//            Sleep(100); // 模拟玩家操作的延迟
+//        }
+//        });
+//
+//    // 电脑玩家线程函数
+//    std::thread computerThread([&]() {
+//        while (gameRunning) {
+//            std::unique_lock<std::mutex> lock(gameMutex);
+//            maze.updateObject(computerPlayer);
+//            render(maze, computerPlayer.getPosition());
+//            if (computerPlayer.getPosition() == end) {
+//                render.EndGame();
+//                gameRunning = false;
+//            }
+//            lock.unlock();
+//            computerPlayer.move();
+//            Sleep(100); // 模拟电脑玩家操作的延迟
+//        }
+//        });
+//
+//    // 等待两个线程结束
+//    playerThread.join();
+//    computerThread.join();
+//
+//    closegraph();
+//    return;
+//}
