@@ -5,7 +5,7 @@
 
 #include "Basic.h"
 
-// Interface_of_Strategy
+// 策略接口
 class MazeGenerator {
 public:
 	MazeGenerator& operator=(const MazeGenerator&) = delete;
@@ -15,13 +15,13 @@ public:
 	virtual Map* generate(Size _size) = 0;
 };
 
-
-class _DFS_Generator : public MazeGenerator {
+// 具体策略
+class _DFS_Generator final : public MazeGenerator {
 public:
 	virtual Map* generate(Size _size) override;
 };
 
-class _Prim_Generator : public MazeGenerator {
+class _Prim_Generator final : public MazeGenerator {
 public:
 	virtual Map* generate(Size _size) override;
 };

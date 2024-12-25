@@ -23,6 +23,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maze.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="_Prim_Generator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +31,7 @@
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Maze.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Object.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

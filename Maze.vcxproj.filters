@@ -30,6 +30,9 @@
     <ClCompile Include="_Prim_Generator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Generator.h">
@@ -38,13 +41,13 @@
     <ClInclude Include="Game.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Maze.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Basic.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -34,23 +34,31 @@ bool Maze::Query(Point position) {
 		return (*maze)[position.x][position.y];
 	else
 		return Cell::WALL;
-}
+};
 
-void Maze::GetPlayer(std::queue<Point>& player) {
+void Maze::Update(Object& obj) {
 	try
 	{
-		Point _last_position = player.front();
-		player.pop();
-		if(!Query(_last_position))
+		Point _last_position = obj.updateKernel();
+		if (!Query(_last_position))
 			throw std::range_error("_Inappropriate_Position");
-
-		if (player.empty()) {
-			player.push(_last_position);
-			(*maze)[player.front().x][player.front().y] = Cell::PLAYER;
+		// 如果没有移动
+		if (obj.emptyPosition()) {
+			obj.updateKernel(_last_position);
+			(*maze)[_last_position.x][_last_position.y] = Cell::PLAYER;
+			return;
 		}
-		else{
+		// 如果有移动
+		Point _next_position = obj.updateKernel();
+		if (Query(_next_position))
+		{
+			obj.updateKernel(_next_position);
 			(*maze)[_last_position.x][_last_position.y] = Cell::PATH;
-			(*maze)[player.front().x][player.front().y] = Cell::PLAYER;
+			(*maze)[_next_position.x][_next_position.y] = Cell::PLAYER;
+		}
+		else
+		{
+			obj.updateKernel(_last_position);
 		}
 	}
 	catch (const std::exception& e)
@@ -59,5 +67,3 @@ void Maze::GetPlayer(std::queue<Point>& player) {
 	}
 	return;
 }
-
-

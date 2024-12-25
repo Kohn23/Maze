@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 #include "Maze.h"
+#include "Object.h"
 
 class Game final {
 public:
@@ -23,5 +24,5 @@ private:
 private:
 	Maze maze;
 	Render render;
-	Player player;
+	HWND console;
 };

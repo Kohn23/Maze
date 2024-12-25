@@ -21,6 +21,7 @@ void Game::initGame() {
         }
     }
 }
+
 char Game::Menu() {
     Sleep(1000);
     system("cls");
@@ -44,47 +45,23 @@ void Game::EasyMode() {
     int height = 21;
     Point start(0, 1);
     Point end(width - 1, height - 2);
-    while (!player.empty()) // 清空状态
-        player.pop();
-    player.push(start);
 
+    Player player(start);
     maze.SetGenerator(new _Prim_Generator);
     maze.SetMaze({ width,height }, start, end);
     while (true)
     {
-        maze.GetPlayer(player);
+        maze.Update(player);
         render(maze);
         // 检查是否到达终点
-        if (player.front().x == end.x && player.front().y == end.y)
+        if (player.getPosition() == end)
         {
             render.EndGame();
             Sleep(3000);
             break;
         }
-
         // 进行移动
-        Point move = player.front();
-        char ch = _getch();  // 获取一个字符输入
-        if (ch == 'w' || ch == 'W') // 上
-        {
-            move += Point(0, -1);
-            if (maze.Query(move)) player.push(move);
-        }
-        else if (ch == 's' || ch == 'S') // 下
-        {
-            move += Point(0, 1);
-            if (maze.Query(move)) player.push(move);
-        }
-        else if (ch == 'a' || ch == 'A') // 左
-        {
-            move += Point(-1, 0);
-            if (maze.Query(move)) player.push(move);
-        }
-        else if (ch == 'd' || ch == 'D') // 右
-        {
-            move += Point(1, 0);
-            if (maze.Query(move)) player.push(move);
-        }
+        player.move();
     }
 
     closegraph();
@@ -97,18 +74,16 @@ void Game::HardMode() {
     int height = 49;
     Point start(0, 1);
     Point end(width - 1, height - 2);
-    while (!player.empty()) // 清空状态
-        player.pop();
-    player.push(start);
-
+    
+    Player player(start);
     maze.SetGenerator(new _DFS_Generator);
     maze.SetMaze({ width,height }, start, end);
     while (true)
     {
-        maze.GetPlayer(player);
+        maze.Update(player);
         render(maze);
         // 检查是否到达终点
-        if (player.front().x == end.x && player.front().y == end.y)
+        if (player.getPosition() == end)
         {
             render.EndGame();
             Sleep(3000);
@@ -116,28 +91,7 @@ void Game::HardMode() {
         }
 
         // 进行移动
-        Point move = player.front();
-        char ch = _getch();  // 获取一个字符输入
-        if (ch == 'w' || ch == 'W') // 上
-        {
-            move += Point(0, -1);
-            if (maze.Query(move)) player.push(move);
-        }
-        else if (ch == 's' || ch == 'S') // 下
-        {
-            move += Point(0, 1);
-            if (maze.Query(move)) player.push(move);
-        }
-        else if (ch == 'a' || ch == 'A') // 左
-        {
-            move += Point(-1, 0);
-            if (maze.Query(move)) player.push(move);
-        }
-        else if (ch == 'd' || ch == 'D') // 右
-        {
-            move += Point(1, 0);
-            if (maze.Query(move)) player.push(move);
-        }
+        player.move();
     }
 
     closegraph();

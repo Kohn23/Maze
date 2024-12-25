@@ -3,6 +3,7 @@
 
 #include "Basic.h"
 #include "Generator.h"
+#include "Object.h"
 
 class Maze final {
     friend class Render;
@@ -11,9 +12,8 @@ public:
 public:
     void SetGenerator(MazeGenerator* newGenerator);
     void SetMaze(Size _size, Point start, Point end);
-    void GetPlayer(Player& player);
+    void Update(Object& obj);
     bool Query(Point position);
-    void Disp();
 private:
     Size size;
     std::unique_ptr<Map> maze;
