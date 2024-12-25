@@ -47,12 +47,12 @@ void Game::EasyMode() {
     Point end(width - 1, height - 2);
 
     Player player(start);
-    maze.SetGenerator(new _Prim_Generator);
-    maze.SetMaze({ width,height }, start, end);
+    maze.setGenerator(new _Prim_Generator);
+    maze.setMaze({ width,height }, start, end);
     while (true)
     {
-        maze.Update(player);
-        render(maze);
+        maze.updateObject(player);
+        render(maze,player.getPosition());
         // 检查是否到达终点
         if (player.getPosition() == end)
         {
@@ -76,12 +76,12 @@ void Game::HardMode() {
     Point end(width - 1, height - 2);
     
     Player player(start);
-    maze.SetGenerator(new _DFS_Generator);
-    maze.SetMaze({ width,height }, start, end);
+    maze.setGenerator(new _DFS_Generator);
+    maze.setMaze({ width,height }, start, end);
     while (true)
     {
-        maze.Update(player);
-        render(maze);
+        maze.updateObject(player);
+        render(maze,player.getPosition());
         // 检查是否到达终点
         if (player.getPosition() == end)
         {

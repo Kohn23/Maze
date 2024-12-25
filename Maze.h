@@ -10,24 +10,22 @@ class Maze final {
 public:
     ~Maze() = default;
 public:
-    void SetGenerator(MazeGenerator* newGenerator);
-    void SetMaze(Size _size, Point start, Point end);
-    void Update(Object& obj);
-    bool Query(Point position);
+    void setGenerator(MazeGenerator* newGenerator);
+    void setMaze(Size _size, Point start, Point end);
+    void updateObject(Object& obj);
+    bool query(Point position);
 private:
     Size size;
     std::unique_ptr<Map> maze;
     std::unique_ptr<MazeGenerator> generator;
 };
 
-
-
 class Render final {
 private:
     bool _need_init{ true };
 
 public:
-    void operator()(Maze& obj) noexcept {
+    void operator()(Maze& obj, Point player) noexcept {
         const int width = 20;
         if (_need_init)
         {
@@ -39,7 +37,7 @@ public:
 
         cleardevice();
         // 调用静态私有成员函数绘制迷宫
-        drawMaze(obj, width);
+        drawMaze(obj,player,width);
     }
 
     void EndGame() noexcept{
@@ -52,7 +50,7 @@ public:
     }
 
 private:
-    static void drawMaze(const Maze& obj, int width) {
+    static void drawMaze(const Maze& obj, Point player, int width) {
         const Map* map = obj.maze.get();
         BeginBatchDraw();
         for (int j = 0; j < obj.size.second; ++j) {
@@ -60,13 +58,11 @@ private:
                 if ((*map)[i][j] == Cell::WALL) {
                     fillrectangle(i * width, j * width, (i + 1) * width - 1, (j + 1) * width - 1);
                 }
-                else if ((*map)[i][j] == Cell::PLAYER) {
-                    setfillcolor(RED);
-                    fillrectangle(i * width, j * width, (i + 1) * width - 1, (j + 1) * width - 1);
-                    setfillcolor(LIGHTGRAY);
-                }
             }
         }
+        setfillcolor(RED);
+        fillrectangle(player.x * width, player.y * width, (player.x + 1) * width - 1, (player.y + 1) * width - 1);
+        setfillcolor(LIGHTGRAY);
         EndBatchDraw();
     }
 };
