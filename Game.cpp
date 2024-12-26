@@ -154,7 +154,7 @@ void Game::CompeteMode() {
     maze.setMaze({ width, height }, start1, end1, start2, end2);
 
     Player player(start1);
-    AutoPilot computerPlayer(start2); // 假设你有一个ComputerPlayer类
+    AutoPilot computerPlayer(start2); 
     computerPlayer.updateKernel(maze.findPath(start2, end2));
 
     // 玩家线程函数
@@ -183,11 +183,10 @@ void Game::CompeteMode() {
             }
             lock.unlock();
             computerPlayer.move();
-            Sleep(50); // 模拟电脑玩家操作的延迟
+            Sleep(50);
         }
         });
 
-    // 等待两个线程结束
     playerThread.join();
     computerThread.join();
 
