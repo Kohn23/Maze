@@ -65,11 +65,20 @@ void Render::drawMaze(const Maze& obj, Point player1, Point player2, int width) 
 }
 
 
-void Render::EndGame() noexcept {
+void Render::WinGame() noexcept {
     _need_init = true;
     settextcolor(RED);
     settextstyle(48, 0, _T("Consolas"));
     int x = (getmaxx() - textwidth(_T("You Win!"))) / 2; // 计算文本宽度并居中
     int y = (getmaxy() - textheight(_T("You Win!"))) / 2 + textheight(_T("You Win!")); // 计算文本高度并居中
     outtextxy(x, y, _T("You Win!")); // 在指定位置绘制 "You Win!" 文字
+}
+
+void Render::LoseGame() noexcept {
+    _need_init = true;
+    settextcolor(GREEN);
+    settextstyle(48, 0, _T("Consolas"));
+    int x = (getmaxx() - textwidth(_T("You Lose!"))) / 2; // 计算文本宽度并居中
+    int y = (getmaxy() - textheight(_T("You Lose!"))) / 2 + textheight(_T("You Lose!")); // 计算文本高度并居中
+    outtextxy(x, y, _T("You Lose!")); // 在指定位置绘制 "You Win!" 文字
 }

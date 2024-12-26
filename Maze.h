@@ -13,6 +13,7 @@ public:
 public:
     void setGenerator(MazeGenerator* newGenerator);
     void setMaze(Size _size, Point start, Point end);
+    void setMaze(Size _size, Point start1, Point end1, Point start2, Point end2);
     bool query(Point position);
 public:
     void updateObject(Player& obj);
@@ -30,7 +31,8 @@ private:
 public:
     void operator()(Maze& obj, Point player1) noexcept;
     void operator()(Maze& obj, Point player1, Point player2) noexcept;
-    void EndGame() noexcept;
+    void WinGame() noexcept;
+    void LoseGame() noexcept;
 
 private:
     static void drawMaze(const Maze& obj, Point player1, int width);

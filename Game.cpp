@@ -62,7 +62,7 @@ void Game::EasyMode() {
         // 检查是否到达终点
         if (player.getPosition() == end)
         {
-            render.EndGame();
+            render.WinGame();
             Sleep(3000);
             break;
         }
@@ -91,7 +91,7 @@ void Game::HardMode() {
         // 检查是否到达终点
         if (player.getPosition() == end)
         {
-            render.EndGame();
+            render.WinGame();
             Sleep(3000);
             break;
         }
@@ -121,7 +121,7 @@ void Game::AutoMode() {
         // 检查是否到达终点
         if (player.getPosition() == end)
         {
-            render.EndGame();
+            render.WinGame();
             Sleep(3000);
             break;
         }
@@ -146,16 +146,16 @@ std::mutex gameMutex; // 用于同步访问游戏状态的互斥锁
 void Game::CompeteMode() {
     int width = 49;
     int height = 49;
-    Point start(0, 1);
-    Point end(width - 1, height - 2);
+    Point start1(0, 1), start2(0, height - 2);
+    Point end1(width - 1, height - 2), end2(width - 1, 1);
 
 
     maze.setGenerator(new _DFS_Generator);
-    maze.setMaze({ width, height }, start, end);
+    maze.setMaze({ width, height }, start1, end1, start2, end2);
 
-    Player player(start);
-    AutoPilot computerPlayer(start); // 假设你有一个ComputerPlayer类
-    computerPlayer.updateKernel(maze.findPath(start, end));
+    Player player(start1);
+    AutoPilot computerPlayer(start2); // 假设你有一个ComputerPlayer类
+    computerPlayer.updateKernel(maze.findPath(start2, end2));
 
     // 玩家线程函数
     std::thread playerThread([&]() {
@@ -163,8 +163,8 @@ void Game::CompeteMode() {
             std::unique_lock<std::mutex> lock(gameMutex);
             maze.updateObject(player);
             render(maze, player.getPosition(), computerPlayer.getPosition());
-            if (player.getPosition() == end) {
-                render.EndGame();
+            if (player.getPosition() == end1) {
+                render.WinGame();
                 gameRunning = false;
             }
             lock.unlock();
@@ -177,13 +177,13 @@ void Game::CompeteMode() {
         while (gameRunning) {
             std::unique_lock<std::mutex> lock(gameMutex);
             render(maze, player.getPosition(), computerPlayer.getPosition());
-            if (computerPlayer.getPosition() == end) {
-                render.EndGame();
+            if (computerPlayer.getPosition() == end2) {
+                render.LoseGame();
                 gameRunning = false;
             }
             lock.unlock();
             computerPlayer.move();
-            Sleep(500); // 模拟电脑玩家操作的延迟
+            Sleep(50); // 模拟电脑玩家操作的延迟
         }
         });
 
@@ -191,6 +191,7 @@ void Game::CompeteMode() {
     playerThread.join();
     computerThread.join();
 
+    Sleep(3000);
     closegraph();
     return;
 }

@@ -26,6 +26,30 @@ void Maze::setMaze(Size _size, Point start, Point end) {
 	return;
 }
 
+void Maze::setMaze(Size _size, Point start1, Point end1, Point start2, Point end2) {
+	try
+	{
+		if (generator == nullptr)
+			throw std::runtime_error("_NULL_Generator");
+
+		maze.reset(generator->generate(_size));
+		(*maze)[start1.x][start1.y] = Cell::PATH;
+		(*maze)[start2.x][start2.y] = Cell::PATH;
+		(*maze)[end1.x][end1.y] = Cell::PATH;
+		(*maze)[end2.x][end2.y] = Cell::PATH;
+		size = _size;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Error:" << e.what() << std::endl << "Using _DFS_Generator..." << std::endl;
+		// 默认使用DFS算法
+		Maze::setGenerator(new _DFS_Generator);
+		maze.reset(generator->generate(_size));
+		size = _size;
+	}
+	return;
+}
+
 bool Maze::query(Point position) {
 	if (position.x >= 0
 		&& position.x <= size.second - 1
@@ -68,6 +92,7 @@ void Maze::updateObject(Player& obj) {
 	return;
 }
 
+// dfs搜索路径
 Kernel Maze::findPath(Point start, Point end) {
 	Map* maze = this->maze.get();
 	// 方向
