@@ -11,6 +11,9 @@ void Game::initGame() {
         case 'h': // 困难模式
             HardMode();
             break;
+        case 'a': // 测试模式
+            AutoMode();
+            break;
         case 'q': // 退出游戏
             exit(0); // 退出程序
             break;
@@ -74,10 +77,10 @@ void Game::HardMode() {
     int height = 49;
     Point start(0, 1);
     Point end(width - 1, height - 2);
-    
-    Player player(start);
     maze.setGenerator(new _DFS_Generator);
     maze.setMaze({ width,height }, start, end);
+
+    Player player(start);
     while (true)
     {
         maze.updateObject(player);
@@ -92,6 +95,37 @@ void Game::HardMode() {
 
         // 进行移动
         player.move();
+    }
+
+    closegraph();
+    return;
+}
+
+// 困难模式，大迷宫，只有一条主路，使用DFS算法生成迷宫
+void Game::AutoMode() {
+    int width = 49;
+    int height = 49;
+    Point start(0, 1);
+    Point end(width - 1, height - 2);
+    maze.setGenerator(new _DFS_Generator);
+    maze.setMaze({ width,height }, start, end);
+
+    AutoPilot player(start);
+    player.updateKernel(maze.findPath(start, end));
+    while (true)
+    {
+        render(maze, player.getPosition());
+        // 检查是否到达终点
+        if (player.getPosition() == end)
+        {
+            render.EndGame();
+            Sleep(3000);
+            break;
+        }
+
+        // 进行移动
+        player.move();
+        Sleep(50);
     }
 
     closegraph();

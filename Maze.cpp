@@ -69,6 +69,7 @@ void Maze::updateObject(Player& obj) {
 }
 
 Kernel Maze::findPath(Point start, Point end) {
+	Map* maze = this->maze.get();
 	// 方向
 	std::vector<std::vector<int>> dir{ {1,0},{0,1},{-1,0},{0,-1} };
 	// DFS栈\为了最后返回一个kernel而用list来模拟栈
@@ -82,14 +83,14 @@ Kernel Maze::findPath(Point start, Point end) {
 		int i = 0;
 		for (; i < 4; ++i)
 		{
-			if (finder.x + dir[i][0] >= 0 
-				&& finder.x + dir[i][0] <= size.second - 2 
-				&& finder.y + dir[i][1] >= 0 
-				&& finder.y + dir[i][1] <= size.first - 2
-				&& (*maze)[finder.x + dir[i][0]][finder.y + dir[i][1]] == PATH)
+			if (finder.x + dir[i][0] >= 0
+				&& finder.x + dir[i][0] <= size.second - 1
+				&& finder.y + dir[i][1] >= 0
+				&& finder.y + dir[i][1] <= size.first - 1
+				&& (*maze)[finder.x + dir[i][0]][finder.y + dir[i][1]] == Cell::PATH)
 			{
-				// 对走过的路进行标记
-				(*maze)[finder.x][finder.y] = FLAG;
+				// 标记
+				(*maze)[finder.x][finder.y] = Cell::FLAG;
 				finder.x += dir[i][0];
 				finder.y += dir[i][1];
 				sp.push_back(finder);
@@ -112,8 +113,12 @@ Kernel Maze::findPath(Point start, Point end) {
 	}
 	// 还原
 	for (auto& v1 : (*maze))
+	{
 		for (auto& v2 : v1)
-			if (v2 == FLAG) v2 = PATH;
+		{
+			if (v2 == Cell::FLAG) v2 = Cell::PATH;
+		}
+	}
 
 	for (const auto& point : sp) {
 		kernel.push(point);

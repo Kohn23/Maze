@@ -13,9 +13,9 @@ public:
 public:
     void setGenerator(MazeGenerator* newGenerator);
     void setMaze(Size _size, Point start, Point end);
-    void updateObject(Player& obj);
     bool query(Point position);
 public:
+    void updateObject(Player& obj);
     Kernel findPath(Point start, Point end);
 private:
     Size size;

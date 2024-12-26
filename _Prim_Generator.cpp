@@ -16,20 +16,20 @@ Map* _Prim_Generator::generate(Size _size) {
     srand(static_cast<unsigned int>(time(NULL)));
     // 记录容器
     std::vector<Point> vp;
-    // 随机初始化挖墙起点
+    // 随机初始化
     Point digger((rand() % (_size.first - 2) + 1) | 1, (rand() % (_size.second - 2) + 1) | 1);
     if (digger.x - 1 >= 2) vp.push_back(Point(digger.x - 1, digger.y));
     if (digger.x + 1 <= _size.first - 3) vp.push_back(Point(digger.x + 1, digger.y));
     if (digger.y - 1 >= 2) vp.push_back(Point(digger.x, digger.y - 1));
     if (digger.y + 1 <= _size.second - 3) vp.push_back(Point(digger.x, digger.y + 1));
 
-    // 标记该通路
+    // 标记
     (*maze)[digger.x][digger.y] = Cell::FLAG;
     int pos = 0;
-    // 后续迭代生成迷宫
+    // 迭代
     while (!vp.empty())
     {
-        // 在墙容器中随机选取一堵墙
+        // 随机选取一堵墙
         pos = rand() % vp.size();
         digger = vp[pos];
         // 记录该墙是否打通
@@ -39,7 +39,7 @@ Map* _Prim_Generator::generate(Size _size) {
             if ((*maze)[digger.x][digger.y - 1] != (*maze)[digger.x][digger.y + 1]) //判断两侧是否一侧为PATH，另一侧为Cell::FLAG
             {
                 (*maze)[digger.x][digger.y] = Cell::PATH;
-                // 对新加入的通路进行标记
+                // 标记
                 if ((*maze)[digger.x][digger.y - 1] == Cell::FLAG) { (*maze)[digger.x][digger.y + 1] = Cell::FLAG; ++digger.y; }
                 else { (*maze)[digger.x][digger.y - 1] = Cell::FLAG; --digger.y; }
                 flag = true;
@@ -50,7 +50,7 @@ Map* _Prim_Generator::generate(Size _size) {
             if ((*maze)[digger.x - 1][digger.y] != (*maze)[digger.x + 1][digger.y])
             {
                 (*maze)[digger.x][digger.y] = Cell::PATH;
-                // 对新加入的通路进行标记
+                // 标记
                 if ((*maze)[digger.x - 1][digger.y] == Cell::FLAG) { (*maze)[digger.x + 1][digger.y] = Cell::FLAG; ++digger.x; }
                 else { (*maze)[digger.x - 1][digger.y] = Cell::FLAG; --digger.x; }
                 flag = true;
@@ -67,10 +67,14 @@ Map* _Prim_Generator::generate(Size _size) {
         vp[pos] = *(vp.end() - 1);
         vp.pop_back();
     }
-    // 将被标记的通路还原
+    // 还原
     for (auto& v1 : (*maze))
+    {
         for (auto& v2 : v1)
+        {
             if (v2 == Cell::FLAG) v2 = Cell::PATH;
+        }
+    }
     return maze;
 }
 

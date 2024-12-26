@@ -20,6 +20,7 @@ private:
 	char Menu();
 	void EasyMode();
 	void HardMode();
+	void AutoMode();
 
 private:
 	Maze maze;

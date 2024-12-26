@@ -36,3 +36,21 @@ public:
 private:
 	Kernel kernel;
 };
+
+// Íæ¼ÒÎïÌå
+class AutoPilot final : public Object {
+public:
+	AutoPilot& operator=(const AutoPilot&) = delete;
+	AutoPilot(Point p);
+	~AutoPilot() = default;
+public:
+	virtual Point getPosition() override;
+	virtual Point fetchPosition() override;
+	virtual bool emptyPosition() override;
+	virtual void updateKernel(Point position) override;
+	virtual void updateKernel(Kernel newKernel) override;
+public:
+	virtual void move();
+private:
+	Kernel kernel;
+};
