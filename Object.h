@@ -13,11 +13,11 @@ public:
 	virtual ~Object() = default;
 public:
 	virtual Point getPosition() = 0;
+	virtual Point fetchPosition() = 0;
 	virtual bool emptyPosition() = 0;
 public:
-	// 重载内核更新的方法，一个是取出位置，另一个是压入位置
-	virtual Point updateKernel() = 0;
 	virtual void updateKernel(Point position) = 0;
+	virtual void updateKernel(Kernel newKernel) = 0;
 };
 
 // 玩家物体
@@ -27,9 +27,10 @@ public:
 	~Player() = default;
 public:
 	virtual Point getPosition() override;
+	virtual Point fetchPosition() override;
 	virtual bool emptyPosition() override;
-	virtual Point updateKernel() override;
 	virtual void updateKernel(Point position) override;
+	virtual void updateKernel(Kernel newKernel) override;
 public:
 	virtual void move();
 private:

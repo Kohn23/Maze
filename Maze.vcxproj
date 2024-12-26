@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AutoPilot.cpp" />
+    <ClCompile Include="Render.cpp" />
     <ClCompile Include="_DFS_Generator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maze.cpp" />

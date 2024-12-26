@@ -8,7 +8,7 @@ Point Player::getPosition() {
 	return kernel.front();
 }
 
-Point Player::updateKernel() {
+Point Player::fetchPosition() {
 	Point temp = kernel.front();
 	kernel.pop();
 	return temp;
@@ -16,6 +16,10 @@ Point Player::updateKernel() {
 
 void Player::updateKernel(Point position) {
 	kernel.push(position);
+}
+
+void Player::updateKernel(Kernel newKernel) {
+    kernel = newKernel;
 }
 
 bool Player::emptyPosition() {

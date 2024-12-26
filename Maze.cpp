@@ -36,10 +36,10 @@ bool Maze::query(Point position) {
 		return Cell::WALL;
 };
 
-void Maze::updateObject(Object& obj) {
+void Maze::updateObject(Player& obj) {
 	try
 	{
-		Point _last_position = obj.updateKernel();
+		Point _last_position = obj.fetchPosition();
 		if (!query(_last_position))
 			throw std::range_error("_Inappropriate_Position");
 		// 如果没有移动
@@ -48,14 +48,17 @@ void Maze::updateObject(Object& obj) {
 			return;
 		}
 		// 如果有移动
-		Point _next_position = obj.updateKernel();
-		if (query(_next_position))
+		Point _next_position = obj.fetchPosition();
+		if (obj.emptyPosition())
 		{
-			obj.updateKernel(_next_position);
-		}
-		else
-		{
-			obj.updateKernel(_last_position);
+			if (query(_next_position))
+			{
+				obj.updateKernel(_next_position);
+			}
+			else
+			{
+				obj.updateKernel(_last_position);
+			}
 		}
 	}
 	catch (const std::exception& e)
@@ -63,4 +66,57 @@ void Maze::updateObject(Object& obj) {
 		std::cerr << "Error:" << e.what() << std::endl;
 	}
 	return;
+}
+
+Kernel Maze::findPath(Point start, Point end) {
+	// 方向
+	std::vector<std::vector<int>> dir{ {1,0},{0,1},{-1,0},{0,-1} };
+	// DFS栈\为了最后返回一个kernel而用list来模拟栈
+	std::list<Point> sp;
+	Kernel kernel;
+	Point finder = start;
+	sp.push_back(finder);
+	// DFS
+	while (!sp.empty())
+	{
+		int i = 0;
+		for (; i < 4; ++i)
+		{
+			if (finder.x + dir[i][0] >= 0 
+				&& finder.x + dir[i][0] <= size.second - 2 
+				&& finder.y + dir[i][1] >= 0 
+				&& finder.y + dir[i][1] <= size.first - 2
+				&& (*maze)[finder.x + dir[i][0]][finder.y + dir[i][1]] == PATH)
+			{
+				// 对走过的路进行标记
+				(*maze)[finder.x][finder.y] = FLAG;
+				finder.x += dir[i][0];
+				finder.y += dir[i][1];
+				sp.push_back(finder);
+				if (finder == end) {
+					for (const auto& point : sp) {
+						kernel.push(point);
+					}
+					return kernel;
+				}
+				break;
+			}
+		}
+		// 回溯
+		if (i == 4)
+		{
+			(*maze)[finder.x][finder.y] = FLAG;
+			sp.pop_back();
+			if (!sp.empty()) finder = sp.back();
+		}
+	}
+	// 还原
+	for (auto& v1 : (*maze))
+		for (auto& v2 : v1)
+			if (v2 == FLAG) v2 = PATH;
+
+	for (const auto& point : sp) {
+		kernel.push(point);
+	}
+	return kernel;
 }
