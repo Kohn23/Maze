@@ -21,6 +21,7 @@ private:
 	void EasyMode();
 	void HardMode();
 	void AutoMode();
+	void CompeteMode();
 
 private:
 	Maze maze;

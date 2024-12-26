@@ -28,9 +28,11 @@ private:
     bool _need_init{ true };
 
 public:
-    void operator()(Maze& obj, Point player) noexcept;
+    void operator()(Maze& obj, Point player1) noexcept;
+    void operator()(Maze& obj, Point player1, Point player2) noexcept;
     void EndGame() noexcept;
 
 private:
-    static void drawMaze(const Maze& obj, Point player, int width);
+    static void drawMaze(const Maze& obj, Point player1, int width);
+    static void drawMaze(const Maze& obj, Point player1, Point player2, int width);
 };
