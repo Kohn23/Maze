@@ -20,7 +20,6 @@ private:
 	char Menu();
 	void EasyMode();
 	void HardMode();
-	void AutoMode();
 	void CompeteMode();
 
 private:

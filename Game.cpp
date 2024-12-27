@@ -11,9 +11,6 @@ void Game::initGame() {
         case 'h': // 困难模式
             HardMode();
             break;
-        case 'a': // 自动模式
-            AutoMode();
-            break;
         case 'c': // 自动模式
             CompeteMode();
             break;
@@ -38,6 +35,7 @@ char Game::Menu() {
 		"请选择模式：" << std::endl <<
 		"简单模式（e)" << std::endl <<
 		"困难模式（h)" << std::endl <<
+        "人机对战（c)" << std::endl <<
 		"退出游戏（q)" << std::endl <<
 		"输入对应小写字母：";
 	char status = getchar();
@@ -104,36 +102,6 @@ void Game::HardMode() {
     return;
 }
 
-// 自动模式，大迷宫，只有一条主路，使用DFS算法生成迷宫，人机自动寻路
-void Game::AutoMode() {
-    int width = 49;
-    int height = 49;
-    Point start(0, 1);
-    Point end(width - 1, height - 2);
-    maze.setGenerator(new _DFS_Generator);
-    maze.setMaze({ width,height }, start, end);
-
-    AutoPilot player(start);
-    player.updateKernel(maze.findPath(start, end));
-    while (true)
-    {
-        render(maze, player.getPosition());
-        // 检查是否到达终点
-        if (player.getPosition() == end)
-        {
-            render.WinGame();
-            Sleep(3000);
-            break;
-        }
-
-        // 进行移动
-        player.move();
-        Sleep(50);
-    }
-
-    closegraph();
-    return;
-}
 
 #include <thread>
 #include <atomic>
@@ -183,7 +151,7 @@ void Game::CompeteMode() {
             }
             lock.unlock();
             computerPlayer.move();
-            Sleep(50);
+            Sleep(300);
         }
         });
 
